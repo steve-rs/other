@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'cloudstack_helper'
+
+API_URL = "https://sdscloudstack.cloudlord.com:12345/client/api"
+#"http://mycloudstack:8080/client/api"
+API_KEY = "77fZbJ_L0Dd0FSED63sGearUXiJMbGD-VnlXjLZ2snLuzMM_rMMPBFlzAzY_qyNRHfzO7mwvvIWSwssaKozf9A"
+SECRET_KEY = "eADXllxC7tKbGy68mv2hDixtjAaV3uohiK-vTIVSpdZxH4znP79i1N2qZhoZuyPqBGADv87M_fVMeIsS8d2FYA"
+cs_helper = CloudStackHelper.new(:api_key => API_KEY, :secret_key => SECRET_KEY, :api_url => API_URL)
+
+params = {:command => "listZones"}
+result = cs_helper.get(params).body
+puts result
+
+params[:response] = "json"
+result = cs_helper.get(params).body
+puts result
+

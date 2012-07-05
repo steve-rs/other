@@ -1,0 +1,7 @@
+export SERVICE_GROUP_NAME=testsg
+
+for f in `cat tt`
+do
+	export LOCAL_IP=$f
+	./disable.pl
+done

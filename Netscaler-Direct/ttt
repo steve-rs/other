@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+# Install the soap gem if needed 
+puts "install gem if needed..."
+system "sudo gem install savon --no-ri --no-rdoc" unless Gem.available?('savon')
+Gem.clear_paths
+#print Gem::Specification::find_by_name('savon')
+puts "require savon gem..."
+require 'savon'
+

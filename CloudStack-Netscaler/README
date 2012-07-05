@@ -1,0 +1,10 @@
+# Retreive meta-data in CloudStack:
+
+# Get IP address of the gateway/router:
+cat /var/lib/dhclient/dhclient-eth0.leases | grep dhcp-server-identifier
+# Fetch meta-data: see https://code.launchpad.net/~lcosmin/cloud-init/cloudstack
+curl http://50.97.195.101/latest/vm-id
+
+API call to:
+assignToLoadBalancerRule
+

@@ -1,0 +1,63 @@
+SOAP::Transport::HTTP::Client::send_receive: POST http://10.0.1.30/soap HTTP/1.1
+Accept: text/xml
+Accept: multipart/*
+Accept: application/soap
+Content-Length: 480
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "#login"
+
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" 
+	xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<login>
+			<username xsi:type="xsd:string">nsroot</username>
+			<password xsi:type="xsd:string">nsroot</password>
+		</login>
+	</soap:Body>
+</soap:Envelope>
+
+SOAP::Transport::HTTP::Client::send_receive: HTTP/1.1 200 OK
+
+
+Connection: close
+Date: Thu, 17 May 2012 08:02:28 GMT
+Server: Apache
+Content-Length: 615
+Content-Type: text/xml; charset=utf-8
+Last-Modified: Thu, 17 May 2012 08:02:28 GMT
+Client-Date: Thu, 17 May 2012 08:03:14 GMT
+Client-Peer: 10.0.1.30:80
+Client-Response-Num: 1
+Set-Cookie: NSAPI=##57C2012F9915B24841F0B25AF3B3D005235C45899542090E38CEDBC9ED3F;Domain=10.0.1.30;Path=/soap;Version=1
+Status: 200 OK
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns="urn:NSConfig"><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><ns:loginResponse><return xsi:type="ns:simpleResult"><rc xsi:type="xsd:unsignedInt">0</rc><message xsi:type="xsd:string">Done</message></return></ns:loginResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+SOAP::Transport::HTTP::Client::send_receive: POST http://10.0.1.30/soap HTTP/1.1
+Accept: text/xml
+Accept: multipart/*
+Accept: application/soap
+Content-Length: 392
+Content-Type: text/xml; charset=utf-8
+SOAPAction: "#logout"
+
+<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><logout xsi:nil="true" /></soap:Body></soap:Envelope>
+SOAP::Transport::HTTP::Client::send_receive: HTTP/1.1 200 OK
+Connection: close
+Date: Thu, 17 May 2012 08:02:29 GMT
+Server: Apache
+Content-Length: 617
+Content-Type: text/xml; charset=utf-8
+Last-Modified: Thu, 17 May 2012 08:02:29 GMT
+Client-Date: Thu, 17 May 2012 08:03:14 GMT
+Client-Peer: 10.0.1.30:80
+Client-Response-Num: 1
+Status: 200 OK
+
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns="urn:NSConfig"><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><ns:logoutResponse><return xsi:type="ns:simpleResult"><rc xsi:type="xsd:unsignedInt">0</rc><message xsi:type="xsd:string">Bye!</message></return></ns:logoutResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>

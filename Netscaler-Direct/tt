@@ -1,0 +1,8 @@
+h = Hash.new
+h = {"colors"  => ["red", "blue", "green"],
+     "letters" => ["a", "b", "c" ]}
+
+#puts h.assoc("letters")
+
+puts h.find{|key,value| value["letters"]}
+

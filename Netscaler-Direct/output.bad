@@ -1,0 +1,18 @@
+D, [2012-05-17T16:05:48.992038 #9757] DEBUG -- : SOAP request: http://10.0.1.30/soap/
+D, [2012-05-17T16:05:48.992214 #9757] DEBUG -- : SOAPAction: "urn:NSConfigAction", Content-Type: text/xml;charset=UTF-8, Content-Length: 382
+D, [2012-05-17T16:05:48.992259 #9757] DEBUG -- : 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<env:Envelope 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:wsdl="urn:NSConfig" 
+	xmlns:ins0="urn:NSConfig" 
+	xmlns:env="http://schemas.xmlsoap.org/soap/envelope/">
+		<env:Body>
+			<login>
+				<wsdl:password>nsroot</wsdl:password>
+				<wsdl:username>nsroot</wsdl:username>
+			</login>
+		</env:Body>
+</env:Envelope>
