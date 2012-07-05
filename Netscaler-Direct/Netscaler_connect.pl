@@ -17,15 +17,15 @@ if ($ENV{"NS_HOSTNAME"}) { $NS_HOSTNAME = $ENV{"NS_HOSTNAME"}; } else { $NS_HOST
 if ($ENV{"NS_USERNAME"}) { $NS_USERNAME = $ENV{"NS_USERNAME"}; } else { $NS_USERNAME = "nsroot"; }
 if ($ENV{"NS_PASSWORD"}) { $NS_PASSWORD = $ENV{"NS_PASSWORD"}; } else { $NS_PASSWORD = "nsroot"; }
 if ($ENV{"SERVICE_GROUP_NAME"}) { $SERVICE_GROUP_NAME = $ENV{"SERVICE_GROUP_NAME"}; } else { die "SERVICE_GROUP_NAME unset!"; }
-if ($ENV{"LOCAL_IP"}) { $LOCAL_IP = $ENV{"LOCAL_IP"}; } else { $LOCAL_IP = "127.0.0.1"; } # set to .e.g. "PRIVATE_IP"
-if ($ENV{"LOCAL_PORT"}) { $LOCAL_PORT = $ENV{"LOCAL_PORT"}; } else { $LOCAL_PORT = "80"; }
+if ($ENV{"SERVICE_IP"}) { $SERVICE_IP = $ENV{"SERVICE_IP"}; } else { $SERVICE_IP = "127.0.0.1"; } # set to .e.g. "PRIVATE_IP"
+if ($ENV{"SERVICE_PORT"}) { $SERVICE_PORT = $ENV{"SERVICE_PORT"}; } else { $SERVICE_PORT = "80"; }
 
 print "NS_HOSTNAME = ", $NS_HOSTNAME, "\n";
 print "NS_USERNAME = ", $NS_USERNAME, "\n";
 print "NS_PASSWORD = ", $NS_PASSWORD, "\n";
 print "SERVICE_GROUP_NAME = ", $SERVICE_GROUP_NAME, "\n";
-print "LOCAL_IP = ", $LOCAL_IP, "\n";
-print "LOCAL_PORT = ", $LOCAL_PORT, "\n";
+print "SERVICE_IP = ", $SERVICE_IP, "\n";
+print "SERVICE_PORT = ", $SERVICE_PORT, "\n";
 
 ##############################
 
@@ -44,19 +44,19 @@ print $result->{'message'} . "\n";
 
 ##############################
 # Add member to service group
-print "Bind service group ip: SERVICEGROUPNAME=$SERVICE_GROUP_NAME IP=$LOCAL_IP PORT=$LOCAL_PORT: ";
+print "Bind service group ip: SERVICEGROUPNAME=$SERVICE_GROUP_NAME IP=$SERVICE_IP PORT=$SERVICE_PORT: ";
 $result = $soap->bindservicegroup_ip( name('servicegroupname' => $SERVICE_GROUP_NAME),
-				 name('ip' => $LOCAL_IP),
-				 name('port' => $LOCAL_PORT) )
+				 name('ip' => $SERVICE_IP),
+				 name('port' => $SERVICE_PORT) )
 	->result;
 print $result->{'message'} . "\n";
 
 ##############################
 ## Remove member from service group
-#print "Unbind service group ip: SERVICEGROUPNAME=$SERVICE_GROUP_NAME IP=$LOCAL_IP PORT=$LOCAL_PORT: ";
+#print "Unbind service group ip: SERVICEGROUPNAME=$SERVICE_GROUP_NAME IP=$SERVICE_IP PORT=$SERVICE_PORT: ";
 #$result = $soap->unbindservicegroup_ip( name('servicegroupname' => $SERVICE_GROUP_NAME),
-#				 name('ip' => $LOCAL_IP),
-#				 name('port' => $LOCAL_PORT) )
+#				 name('ip' => $SERVICE_IP),
+#				 name('port' => $SERVICE_PORT) )
 #	->result;
 #print $result->{'message'} . "\n";
 
