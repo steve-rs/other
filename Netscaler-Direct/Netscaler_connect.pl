@@ -44,12 +44,21 @@ print $result->{'message'} . "\n";
 
 ##############################
 # Add member to service group
-print "Unbind service group ip: SERVICEGROUPNAME=$SERVICE_GROUP_NAME IP=$LOCAL_IP PORT=$LOCAL_PORT: ";
-$result = $soap->unbindservicegroup_ip( name('servicegroupname' => $SERVICE_GROUP_NAME),
+print "Bind service group ip: SERVICEGROUPNAME=$SERVICE_GROUP_NAME IP=$LOCAL_IP PORT=$LOCAL_PORT: ";
+$result = $soap->bindservicegroup_ip( name('servicegroupname' => $SERVICE_GROUP_NAME),
 				 name('ip' => $LOCAL_IP),
 				 name('port' => $LOCAL_PORT) )
 	->result;
 print $result->{'message'} . "\n";
+
+##############################
+## Remove member from service group
+#print "Unbind service group ip: SERVICEGROUPNAME=$SERVICE_GROUP_NAME IP=$LOCAL_IP PORT=$LOCAL_PORT: ";
+#$result = $soap->unbindservicegroup_ip( name('servicegroupname' => $SERVICE_GROUP_NAME),
+#				 name('ip' => $LOCAL_IP),
+#				 name('port' => $LOCAL_PORT) )
+#	->result;
+#print $result->{'message'} . "\n";
 
 ##############################
 # Save configuration

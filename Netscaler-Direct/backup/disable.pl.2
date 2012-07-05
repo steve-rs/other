@@ -17,6 +17,7 @@ if ($ENV{"NS_HOSTNAME"}) { $NS_HOSTNAME = $ENV{"NS_HOSTNAME"}; } else { $NS_HOST
 if ($ENV{"NS_USERNAME"}) { $NS_USERNAME = $ENV{"NS_USERNAME"}; } else { $NS_USERNAME = "nsroot"; }
 if ($ENV{"NS_PASSWORD"}) { $NS_PASSWORD = $ENV{"NS_PASSWORD"}; } else { $NS_PASSWORD = "nsroot"; }
 if ($ENV{"SERVICE_GROUP_NAME"}) { $SERVICE_GROUP_NAME = $ENV{"SERVICE_GROUP_NAME"}; } else { die "SERVICE_GROUP_NAME unset!"; }
+if ($ENV{"SERVICE_TYPE"}) { $SERVICE_TYPE = $ENV{"SERVICE_TYPE"}; } else { $SERVICE_TYPE = "http"; }
 if ($ENV{"LOCAL_IP"}) { $LOCAL_IP = $ENV{"LOCAL_IP"}; } else { $LOCAL_IP = "127.0.0.1"; } # set to .e.g. "PRIVATE_IP"
 if ($ENV{"LOCAL_PORT"}) { $LOCAL_PORT = $ENV{"LOCAL_PORT"}; } else { $LOCAL_PORT = "80"; }
 
@@ -24,6 +25,7 @@ print "NS_HOSTNAME = ", $NS_HOSTNAME, "\n";
 print "NS_USERNAME = ", $NS_USERNAME, "\n";
 print "NS_PASSWORD = ", $NS_PASSWORD, "\n";
 print "SERVICE_GROUP_NAME = ", $SERVICE_GROUP_NAME, "\n";
+print "SERVICE_TYPE = ", $SERVICE_TYPE, "\n";
 print "LOCAL_IP = ", $LOCAL_IP, "\n";
 print "LOCAL_PORT = ", $LOCAL_PORT, "\n";
 
