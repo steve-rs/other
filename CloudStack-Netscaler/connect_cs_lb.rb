@@ -18,12 +18,12 @@ ip = `cat /var/lib/dhclient/dhclient-eth0.leases | \
   egrep "dhcp-server-identifier.*[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" | tail -1 | awk '{print $NF}' | tr -cd "[^0-9.]"`
 
 abort "Cannot find IP addr of the meta-data router/server" if ip == ""
-puts "Meta-data server IP = [#{ip}]"
+puts "Will retrieve mete-data from IP = [#{ip}]"
 
 url = 'http://' + ip + '/latest/vm-id'
 vmid = RestClient.send(:get, url)
 
-abort "Cannot retreive this server's VM ID from #{url}" if vmid == ""
+abort "Cannot retrieve this server's VM ID from #{url}" if vmid == ""
 puts "This VM ID = [#{vmid}]"
 
 puts "Load balancer rule ID = [#{LB_RULE_ID}]"
