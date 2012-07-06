@@ -10,11 +10,16 @@ require 'json' # gen install json_pure. Note: 'pure' is needed due to a bug on C
 # Note: API_URL / API_KEY / SECRET_KEY / LB_RULE_ID must all be defined in RightScale INPUTS (in the environment)
 
 ## TEST values
-API_URL = "https://sdscloudstack.cloudlord.com:12345/client/api"
-API_KEY = "77fZbJ_L0Dd0FSED63sGearUXiJMbGD-VnlXjLZ2snLuzMM_rMMPBFlzAzY_qyNRHfzO7mwvvIWSwssaKozf9A"
-SECRET_KEY = "eADXllxC7tKbGy68mv2hDixtjAaV3uohiK-vTIVSpdZxH4znP79i1N2qZhoZuyPqBGADv87M_fVMeIsS8d2FYA"
-LB_RULE_ID = 111
+#API_URL = "https://sdscloudstack.cloudlord.com:12345/client/api"
+#API_KEY = "77fZbJ_L0Dd0FSED63sGearUXiJMbGD-VnlXjLZ2snLuzMM_rMMPBFlzAzY_qyNRHfzO7mwvvIWSwssaKozf9A"
+#SECRET_KEY = "eADXllxC7tKbGy68mv2hDixtjAaV3uohiK-vTIVSpdZxH4znP79i1N2qZhoZuyPqBGADv87M_fVMeIsS8d2FYA"
+#LB_RULE_ID = 111
 ## TEST values
+
+abort "API_KEY undefined!"    unless (API_KEY =    ENV['API_KEY'])
+abort "API_URL undefined!"    unless (API_URL =    ENV['API_URL'])
+abort "SECRET_KEY undefined!" unless (SECRET_KEY = ENV['SECRET_KEY'])
+abort "LB_RULE_ID undefined!" unless (LB_RULE_ID = ENV['LB_RULE_ID'])
 
 def generate_signature(params)
   params.each { |k,v| params[k] = CGI.escape(v.to_s).gsub('+', '%20').downcase }
