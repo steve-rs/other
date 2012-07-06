@@ -81,6 +81,7 @@ puts "Load balancer rule ID = [#{LB_RULE_ID}]"
 ##############################################
 # Make CS API request to assign this server to a load balancer
 
+# Note, remove a VM from a rule using the api command "removeFromLoadBalancerRule"
 params = {
   'command' => 'assignToLoadBalancerRule',
   'id' => LB_RULE_ID,
