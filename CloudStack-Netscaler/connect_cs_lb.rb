@@ -120,25 +120,25 @@ begin
   puts "Response:\n" + response_s
   tmp2 = JSON.parse(response_s)
   
-  jr = tmp2['queryasyncjobresultresponse']
+  job_res_resp = tmp2['queryasyncjobresultresponse']
 
   tries -= 1
   a_while += 5
-end while jr['jobstatus'] == 0 and tries > 0
+end while job_res_resp['jobstatus'] == 0 and tries > 0
 
 puts "Giving up waiting for job to complete" unless tries > 0
 
-jobstatus = jr['jobstatus']
+jobstatus = job_res_resp['jobstatus']
 
 case jobstatus
 when 2
-  print "Request failed "
+  print "Request failed: "
 when 1
-  print "Request succeded "
+  print "Request succeded: "
 when 0
-  print "Request still in progress "
+  print "Request still in progress: "
 else
-  print "Unknown result "
+  print "Unknown result: "
 end
   puts "job status #{jobstatus}"
 
