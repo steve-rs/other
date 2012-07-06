@@ -1,0 +1,33 @@
+#API_URL="https://cloudstack.dlinkddns.com:10488/client/api"
+#API_KEY="yHFv7Xn58mt9PqIUlVeioRinoI4PiKgGR14J97tDEjzIp6L9Tc_JohEv0C3y2sNTGT5WMSAx3gXE6gX3bGyuaw"
+#SECRET_KEY="neudBtNEOpbMjF_ut9yQYqJ1dfsMArAWMcpYQLwwnxjIoqa-8s5Xw6dIwCb25rcbSpQWqus_2JkppLFzc4tiYw"
+
+API_URL="https://sdscloudstack.cloudlord.com:12345/client/api"
+API_KEY="77fZbJ_L0Dd0FSED63sGearUXiJMbGD-VnlXjLZ2snLuzMM_rMMPBFlzAzY_qyNRHfzO7mwvvIWSwssaKozf9A"
+SECRET_KEY="eADXllxC7tKbGy68mv2hDixtjAaV3uohiK-vTIVSpdZxH4znP79i1N2qZhoZuyPqBGADv87M_fVMeIsS8d2FYA"
+
+> tmp
+echo command=listZones >> tmp
+echo apikey=$API_KEY >> tmp
+
+cmd=`cat tmp | tr "\n" "&"`
+echo command=$cmd >&2
+sigtmp1=`sort tmp | tr "[A-Z]" "[a-z]" | tr "\n" "&" | sed "s/&$//"`
+sigtmp2=`sort tmp | tr "[A-Z]" "[a-z]" | tr "\n" "&" | sed "s/&$//" | openssl sha1 -hmac "$SECRET_KEY"`
+sig=`sort tmp | tr "[A-Z]" "[a-z]" | tr "\n" "&" | sed "s/&$//" | openssl sha1 -hmac "$SECRET_KEY" | base64`
+echo "signature(raw)=$sigtmp1" >&2
+echo "signature(SHA1)=$sigtmp2" >&2
+echo "signature=$sig" >&2
+
+value=`sort tmp | tr "[A-Z]" "[a-z]" | tr "\n" "&" | sed "s/&$//"`
+echo ================
+echo $value
+sig1=`echo '<?= hash_hmac("sha1", "'$value'", "'$SECRET_KEY'") ?>' | php`
+sig2=`echo '<?= hash_hmac("sha1", "'$value'", "'$SECRET_KEY'") ?>' | php | base64`
+
+echo "sig1(SHA1)=$sig1" >&2
+echo "sig2(base64)=$sig2" >&2
+
+sig3="$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$sig2")"
+
+echo "${API_URL}?${cmd}signature=$sig3"

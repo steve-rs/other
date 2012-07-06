@@ -1,0 +1,28 @@
+#API_URL="https://cloudstack.dlinkddns.com:10488/client/api"
+#API_KEY="yHFv7Xn58mt9PqIUlVeioRinoI4PiKgGR14J97tDEjzIp6L9Tc_JohEv0C3y2sNTGT5WMSAx3gXE6gX3bGyuaw"
+#SECRET_KEY="neudBtNEOpbMjF_ut9yQYqJ1dfsMArAWMcpYQLwwnxjIoqa-8s5Xw6dIwCb25rcbSpQWqus_2JkppLFzc4tiYw"
+
+API_URL="https://sdscloudstack.cloudlord.com:12345/client/api"
+API_KEY="77fZbJ_L0Dd0FSED63sGearUXiJMbGD-VnlXjLZ2snLuzMM_rMMPBFlzAzY_qyNRHfzO7mwvvIWSwssaKozf9A"
+SECRET_KEY="eADXllxC7tKbGy68mv2hDixtjAaV3uohiK-vTIVSpdZxH4znP79i1N2qZhoZuyPqBGADv87M_fVMeIsS8d2FYA"
+
+> .tmp
+echo command=listZones >> .tmp
+echo apikey=$API_KEY >> .tmp
+
+cmd=`cat .tmp | tr "\n" "&"`
+echo command=$cmd >&2
+
+# Generate the signature
+sig=`sort .tmp | tr "[A-Z]" "[a-z]" | tr "\n" "&" | sed "s/&$//" | \
+	openssl sha1 -binary -hmac "$SECRET_KEY" | base64 | tr -d "\n" | \
+	perl -MURI::Escape -ne 'print uri_escape($_);'`
+
+echo "signature=$sig" >&2
+
+url="${API_URL}?${cmd}signature=$sig"
+
+echo "$url"
+
+curl -k "$url"
+echo
