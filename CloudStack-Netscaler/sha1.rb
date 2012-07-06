@@ -22,7 +22,8 @@ c2 = "apikey=#{api_key}&command=listzones"
 puts "c1 = [" + c1 + "]"
 puts "c2 = [" + c2 + "]"
 
-hash = OpenSSL::HMAC.digest('sha1', SECRET_KEY, c2)
+#hash = OpenSSL::HMAC.digest('sha1', SECRET_KEY, c2)
+hash = OpenSSL::HMAC.digest(OpenSSL::Digest::SHA1.new, SECRET_KEY, c2)  # Works on CentOS 5.6
 puts "hash = [" + hash + "]"
 signature = Base64.encode64(hash).chomp
 puts "signature = [" + signature + "]"
