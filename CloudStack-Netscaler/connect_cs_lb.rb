@@ -14,16 +14,19 @@ SECRET_KEY = "eADXllxC7tKbGy68mv2hDixtjAaV3uohiK-vTIVSpdZxH4znP79i1N2qZhoZuyPqBG
 LB_RULE_ID = 111
 
 # This will grab the IP addr of the router with the meta-data for this server (tested on CentOS)
-ip = `cat /var/lib/dhclient/dhclient-eth0.leases | egrep "dhcp-server-identifier.*[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" | tail -1 | awk '{print $NF}' | tr -cd "[^0-9.]"`
+ip = `cat /var/lib/dhclient/dhclient-eth0.leases | \
+  egrep "dhcp-server-identifier.*[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" | tail -1 | awk '{print $NF}' | tr -cd "[^0-9.]"`
 
-abort "Cannot find IP addr of the meta-data router/server" unless ip
+abort "Cannot find IP addr of the meta-data router/server" if ip == ""
 puts "Meta-data server IP = [#{ip}]"
 
 url = 'http://' + ip + '/latest/vm-id'
 vmid = RestClient.send(:get, url)
 
-abort "Cannot retreive this server's VM ID from #{url}" unless vmid
+abort "Cannot retreive this server's VM ID from #{url}" if vmid == ""
 puts "This VM ID = [#{vmid}]"
+
+puts "Load balancer rule ID = [#{LB_RULE_ID}]"
 
 def generate_signature(params)
   params.each { |k,v| params[k] = CGI.escape(v.to_s).gsub('+', '%20').downcase }
