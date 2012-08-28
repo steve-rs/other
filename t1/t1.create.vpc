@@ -1,0 +1,102 @@
+
+#https://github.com/flaccid/rs_api_examples/blob/master/bin/rs-create-vpc.sh
+#https://github.com/flaccid/rs_api_examples/blob/master/bin/rs-create-vpc-subnet.sh
+#https://github.com/flaccid/rs_api_examples/blob/master/bin/rs-create-ec2-security-group.sh
+
+############################
+# VPC
+rs_cloud_id=2
+vpc_name="My vpc 1"
+cidr_block="10.0.0.0/16"
+instance_tenancy=default
+vpc_description="My test VPC"
+
+# Subnet A
+subnet_A_name="$vpc_name subnet A"
+subnet_A_cidr_block="10.0.0.0/24"
+subnet_A_rs_ec2_availability_zone_id=201804001  # Get this from HTML in "add server" wizzard
+subnet_A_description="$subnet_A_name description"
+
+# Subnet B
+subnet_B_name="$vpc_name subnet B"
+subnet_B_cidr_block="10.0.1.0/24"
+subnet_B_rs_ec2_availability_zone_id=201805001  # Get this from HTML in "add server" wizzard
+subnet_B_description="$subnet_B_name description"
+
+# Get the rs_ec2_availability_zone_id from here:
+# https://my.rightscale.com/acct/44134/servers/new?cloud_id=2&deployment_id=251929001
+# <select data-behaves="change:RunnableFlow._setAvailabilityZone" id="runnable_availability_zone_id" name="runnable[ec2_availability_zone_id]"><option value="" selected="selected">Any</option>
+# <option value="201804001">eu-west-1a</option>
+# <option value="201805001">eu-west-1b</option>
+# <option value="201806001">eu-west-1c</option>
+
+############################
+
+function myexit 
+{
+	echo "$2" >&2
+	exit $1
+}
+
+################################
+# Create VPC
+
+set -x
+result=$(rs-create-vpc.sh \
+	$rs_cloud_id \
+	"$vpc_name" \
+	$cidr_block \
+	$instance_tenancy \
+	"$vpc_description")
+
+echo $result > /tmp/rs-create-vpc.txt
+
+# Grab the RS and AWS IDs
+## Example: https://my.rightscale.com/acct/44134/clouds/2/vpcs/200832001
+rs_vpc_id=`echo -e "$result" | tail -2 | head -1 | sed "s#https://my.rightscale.com/acct/.*/clouds/.*/vpcs/##"`
+aws_vpc_id=`echo -e "$result" | tail -1` 
+
+# Verify the IDs 
+echo $rs_vpc_id | grep -q -e "^[0-9]\{1,\}"      || myexit 1 "Create VPC failed - bad RS VPC ID [$rs_vpc_id]"
+echo $aws_vpc_id | grep -q -e "^vpc-[0-9a-fA-F]\{1,\}" || myexit 1 "Create VPC failed - bad AWS VPC ID [$aws_vpc_id]"
+
+echo "Create VPC succeeded!"
+echo rs_vpc_id=$rs_vpc_id
+echo aws_vpc_id=$aws_vpc_id
+
+################################
+# Create Subnet 
+
+result=$(rs-create-vpc-subnet.sh \
+	$rs_cloud_id \
+	$rs_vpc_id \
+	"$subnet_A_name" \
+	$subnet_A_cidr_block \
+	$subnet_A_rs_ec2_availability_zone_id \
+	"$subnet_A_description")
+
+echo $result > /tmp/rs-create-vpc-subnet_A.txt
+
+result=$(rs-create-vpc-subnet.sh \
+	$rs_cloud_id \
+	$rs_vpc_id \
+	"$subnet_B_name" \
+	$subnet_B_cidr_block \
+	$subnet_B_rs_ec2_availability_zone_id \
+	"$subnet_B_description")
+
+echo $result > /tmp/rs-create-vpc-subnet_B.txt
+
+
+################################
+# Add Server
+
+#rs-create-server-full.sh \
+	#-a 10.0.0.$cnt \
+	#-i 240559001 \
+	#-s 201628001 \
+	#-g 508661001 \
+	#-g 508857001 \
+	#t1-server-$cnt $rs_vpc_id 251929001 125849 m1.small 243913001
+
+

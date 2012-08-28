@@ -2,6 +2,8 @@
 
 # Perl script to access NetScaler API
 
+ADD = true   # ADD = false # to remove the entry from the LB
+
 use SOAP::Lite;			# troubleshoot: append: +trace=>"debug";
 import SOAP::Data 'name';	# to set data values (q.v.)
 use HTTP::Cookies;		# server uses client cookie for auth
@@ -42,23 +44,26 @@ my $result = $soap->login( name('username'=>$NS_USERNAME),
 	->result;
 print $result->{'message'} . "\n";
 
-##############################
-# Add member to service group
-print "Bind service group ip: SERVICEGROUPNAME=$SERVICE_GROUP_NAME IP=$LOCAL_IP PORT=$LOCAL_PORT: ";
-$result = $soap->bindservicegroup_ip( name('servicegroupname' => $SERVICE_GROUP_NAME),
-				 name('ip' => $LOCAL_IP),
-				 name('port' => $LOCAL_PORT) )
-	->result;
-print $result->{'message'} . "\n";
+if ADD
+	##############################
+	# Add member to service group
+	print "Bind service group ip: SERVICEGROUPNAME=$SERVICE_GROUP_NAME IP=$LOCAL_IP PORT=$LOCAL_PORT: ";
+	$result = $soap->bindservicegroup_ip( name('servicegroupname' => $SERVICE_GROUP_NAME),
+				 	name('ip' => $LOCAL_IP),
+				 	name('port' => $LOCAL_PORT) )
+		->result;
+	print $result->{'message'} . "\n";
 
-##############################
-# Save configuration
-print "Save ns config: ";
-$result = $soap->savensconfig()->result;
+else
+	##############################
+	# Save configuration
+	print "Save ns config: ";
+	$result = $soap->savensconfig()->result;
 
-if ($result->{rc}!=0) {
-	die "Save ns config error: ", $result->{'message'}, "\n";
-}
+	if ($result->{rc}!=0) {
+		die "Save ns config error: ", $result->{'message'}, "\n";
+	}
+end
 
 # Logout
 print "Logout: ";

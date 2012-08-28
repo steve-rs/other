@@ -16,8 +16,8 @@ require 'json' # gen install json_pure. Note: 'pure' is needed due to a bug on C
 #LB_RULE_ID = 111
 ## TEST values
 
-abort "API_KEY undefined!"    unless (API_KEY =    ENV['API_KEY'])
 abort "API_URL undefined!"    unless (API_URL =    ENV['API_URL'])
+abort "API_KEY undefined!"    unless (API_KEY =    ENV['API_KEY'])
 abort "SECRET_KEY undefined!" unless (SECRET_KEY = ENV['SECRET_KEY'])
 abort "LB_RULE_ID undefined!" unless (LB_RULE_ID = ENV['LB_RULE_ID'])
 
